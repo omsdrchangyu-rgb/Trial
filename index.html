@@ -394,6 +394,38 @@
         .sel-bar.show{display:flex;}
         input[type=checkbox].row-chk{width:16px;height:16px;cursor:pointer;accent-color:var(--accent);flex-shrink:0;vertical-align:middle;}
 
+        /* ─── Leave system ─── */
+        .leave-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:var(--fs-xs);font-weight:700;letter-spacing:.04em;border:1px solid transparent;}
+        .lb-annual{background:var(--accent-light);color:var(--accent);border-color:var(--accent-border);}
+        .lb-sick{background:var(--red-light);color:var(--red);border-color:var(--red-border);}
+        .lb-personal{background:var(--gold-light);color:var(--gold);border-color:var(--gold-border);}
+        .lb-other{background:var(--surface-alt);color:var(--text-secondary);border-color:var(--border-strong);}
+        .lb-approved{background:var(--green-light);color:var(--green);border-color:var(--green-border);}
+        .lb-pending-s{background:var(--gold-light);color:var(--gold);border-color:var(--gold-border);}
+        .lb-pending-p{background:var(--accent-light);color:var(--accent);border-color:var(--accent-border);}
+        .lb-rejected{background:var(--red-light);color:var(--red);border-color:var(--red-border);}
+        .leave-type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px;margin-top:8px;}
+        .leave-type-btn{padding:10px 8px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);cursor:pointer;text-align:center;font-size:var(--fs-base);font-family:inherit;transition:border-color .15s,background .15s,color .15s;line-height:1.4;color:var(--text-secondary);}
+        .leave-type-btn:hover{border-color:var(--border-strong);background:var(--surface-alt);color:var(--text-primary);}
+        .leave-type-btn.sel-annual{border-color:var(--accent);background:var(--accent-light);color:var(--accent);font-weight:700;}
+        .leave-type-btn.sel-sick{border-color:var(--red);background:var(--red-light);color:var(--red);font-weight:700;}
+        .leave-type-btn.sel-personal{border-color:var(--gold);background:var(--gold-light);color:var(--gold);font-weight:700;}
+        .leave-type-btn.sel-other{border-color:var(--border-strong);background:var(--surface-alt);color:var(--text-primary);font-weight:700;}
+        .leave-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;}
+        .leave-card-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:7px;gap:8px;flex-wrap:wrap;}
+        .annual-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+        .annual-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;}
+        .annual-card .ac-name{font-weight:700;font-size:var(--fs-base);color:var(--text-primary);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+        .annual-card .ac-bars{display:flex;gap:8px;}
+        .annual-card .ac-bar-item{flex:1;text-align:center;}
+        .annual-card .ac-bar-val{font-size:20px;font-weight:700;line-height:1;color:var(--text-primary);}
+        .annual-card .ac-bar-lbl{font-size:var(--fs-xs);color:var(--text-muted);margin-top:3px;}
+        .tab-btn-group{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;flex-shrink:0;}
+        .tab-btn-group .tbb{padding:6px 13px;font-size:var(--fs-sm);font-weight:500;font-family:inherit;border:none;background:var(--surface);color:var(--text-secondary);cursor:pointer;border-right:1px solid var(--border);transition:background .15s,color .15s;}
+        .tab-btn-group .tbb:last-child{border-right:none;}
+        .tab-btn-group .tbb.active{background:var(--text-primary);color:#fff;font-weight:700;}
+        .tab-btn-group .tbb:hover:not(.active){background:var(--surface-alt);color:var(--text-primary);}
+
         /* ─── Role-based nav visibility ─── */
         .nrec,.nfull,.nfull-lbl,.ndoc,.ndoc-lbl,.nasst,.nasst-lbl,.not,.not-lbl{display:none!important}
         body.principal-mode .nrec,body.principal-mode .nfull,body.principal-mode .ndoc,
@@ -401,6 +433,10 @@
         body.principal-mode .nfull-lbl,body.principal-mode .ndoc-lbl,
         body.principal-mode .not-lbl{display:block!important}
         body.manager-mode .nrec{display:flex!important}
+        .nlv-approve,.mn-nlv-approve{display:none!important}
+        body.principal-mode .nlv-approve,body.manager-mode .nlv-approve{display:flex!important}
+        body.manager-mode .nlv-approve-lbl{display:block!important}
+        body.principal-mode .mn-nlv-approve,body.manager-mode .mn-nlv-approve{display:flex!important}
         body.doctor-mode .nrec,body.doctor-mode .ndoc{display:flex!important}
         body.doctor-mode .ndoc-lbl{display:block!important}
         body.assistant-mode .nasst,body.assistant-mode .not{display:flex!important}
@@ -580,14 +616,23 @@ appId: "..."'></textarea>
         <!-- 加班系統 -->
         <div class="nav-sec-label not-lbl">加班系統</div>
         <button class="nav-item not" onclick="navigate('overtime-apply')">
-            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>加班
+            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>加班及請假
         </button>
-        <div class="nav-sec-label ndoc-lbl">簽核</div>
+        <button class="nav-item nfull" onclick="navigate('leave')">
+            <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>假勤總覽
+        </button>
+        <div class="nav-sec-label ndoc-lbl nlv-approve-lbl">簽核</div>
         <button class="nav-item ndoc" onclick="navigate('overtime-approve')" style="justify-content:space-between">
             <span style="display:flex;align-items:center;gap:9px">
                 <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>待簽核申請
             </span>
             <span id="doc-pending-badge" class="hidden" style="background:var(--red);color:#fff;border-radius:999px;font-size:10px;font-weight:700;padding:1px 7px;min-width:18px;text-align:center"></span>
+        </button>
+        <button class="nav-item nlv-approve" onclick="navigate('leave-approve')" style="justify-content:space-between">
+            <span style="display:flex;align-items:center;gap:9px">
+                <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm5 4a1 1 0 10-2 0v3H6a1 1 0 100 2h3v3a1 1 0 102 0v-3h3a1 1 0 100-2h-3V6z" clip-rule="evenodd"/></svg>假勤簽核
+            </span>
+            <span id="leave-pending-badge" class="hidden" style="background:var(--red);color:#fff;border-radius:999px;font-size:10px;font-weight:700;padding:1px 7px;min-width:18px;text-align:center"></span>
         </button>
         <div class="nav-sec-label nfull-lbl">報備</div>
         <button class="nav-item nfull" onclick="navigate('support-report')">
@@ -782,11 +827,15 @@ appId: "..."'></textarea>
         </div>
     </div>
 
-    <!-- ── 加班（申請 + 記錄合併） ── -->
+    <!-- ── 加班 ＆ 請假合併頁（助理） ── -->
     <div id="page-overtime-apply" class="page">
-        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-            <div><h2 id="ot-page-title">申請加班</h2><p id="ot-page-sub">填寫加班申請單</p></div>
-            <button class="btn btn-outline btn-sm" id="ot-tab-toggle" onclick="switchOTTab()">📋 加班記錄</button>
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+            <div><h2 id="ot-page-title">加班及請假</h2><p id="ot-page-sub">填寫加班申請單</p></div>
+            <div class="tab-btn-group">
+                <button class="tbb active" id="tbb-ot-apply" onclick="setOTTab('ot-apply')">申請加班</button>
+                <button class="tbb" id="tbb-lv-apply" onclick="setOTTab('lv-apply')">申請請假</button>
+                <button class="tbb" id="tbb-records" onclick="setOTTab('records')">記錄</button>
+            </div>
         </div>
         <div class="page-content">
             <div id="ot-apply-form">
@@ -842,7 +891,25 @@ appId: "..."'></textarea>
                 </div>
             </div>
             <div id="ot-status-content" style="display:none"></div>
+            <div id="lv-apply-form" style="display:none"></div>
+            <div id="combined-records-content" style="display:none"></div>
         </div>
+    </div>
+
+    <!-- ── 請假（院長總覽） ── -->
+    <div id="page-leave" class="page">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+            <div><h2>請假</h2><p>假勤申請與年假概況</p></div>
+        </div>
+        <div class="page-content" id="leave-content"></div>
+    </div>
+
+    <!-- ── 假勤簽核（醫師 / 院長） ── -->
+    <div id="page-leave-approve" class="page">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+            <div><h2>假勤簽核</h2><p id="leave-approve-sub">請假申請審核</p></div>
+        </div>
+        <div class="page-content" id="leave-approve-content"></div>
     </div>
 
     <!-- ── 報備支援 ── -->
@@ -909,7 +976,15 @@ appId: "..."'></textarea>
     </button>
     <button class="mn-item mn-not" onclick="navigate('overtime-apply')">
       <svg class="mn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="7" x2="12" y2="12"/><line x1="12" y1="12" x2="16" y2="14"/></svg>
-      加班
+      加班及請假
+    </button>
+    <button class="mn-item mn-nfull" onclick="navigate('leave')">
+      <svg class="mn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      假勤總覽
+    </button>
+    <button class="mn-item mn-nlv-approve" onclick="navigate('leave-approve')">
+      <svg class="mn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+      假勤簽核
     </button>
     <button class="mn-item mn-ndoc" onclick="navigate('overtime-approve')">
       <svg class="mn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -991,6 +1066,66 @@ appId: "..."'></textarea>
         <div class="modal-hd"><div class="modal-title">確認操作</div><button class="modal-x" onclick="hideModal('modal-confirm')">×</button></div>
         <div class="modal-body"><p id="confirm-text" style="color:var(--text-secondary);font-size:13px;line-height:1.7"></p></div>
         <div class="modal-ft"><button class="btn btn-outline" onclick="hideModal('modal-confirm')">取消</button><button class="btn btn-danger" id="confirm-btn">確認</button></div>
+    </div>
+</div>
+
+<!-- ══ Modal: OT History ══ -->
+<div id="modal-ot-history" class="modal-overlay hidden">
+    <div class="modal" style="max-width:560px">
+        <div class="modal-hd"><div class="modal-title" id="ot-hist-title">加班紀錄</div><button class="modal-x" onclick="hideModal('modal-ot-history')">×</button></div>
+        <div class="modal-body" id="ot-hist-body"></div>
+        <div class="modal-ft">
+            <button class="btn btn-outline" onclick="hideModal('modal-ot-history')">關閉</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ Modal: 新增請假紀錄（院長） ══ -->
+<div id="modal-add-leave" class="modal-overlay hidden">
+    <div class="modal" style="max-width:520px">
+        <div class="modal-hd"><div class="modal-title">新增請假紀錄</div><button class="modal-x" onclick="hideModal('modal-add-leave')">×</button></div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">助理</label>
+                <select class="form-select" id="al-asst" style="max-width:200px">
+                    <option value="">— 請選擇 —</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">假別</label>
+                <div class="leave-type-grid" id="al-type-grid"></div>
+            </div>
+            <div id="al-subtype-wrap" style="display:none" class="form-group">
+                <label class="form-label">其他假別</label>
+                <select class="form-select" id="al-subtype" style="max-width:200px"></select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">請假日期（可複選多天）</label>
+                <div id="al-dates-list" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px"></div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <input type="date" class="form-input" id="al-date-add" style="max-width:180px">
+                    <button class="btn btn-outline btn-sm" onclick="addAdminLeaveDate()">＋ 加入日期</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">代理人</label>
+                <select class="form-select" id="al-proxy" style="max-width:200px">
+                    <option value="">— 請選擇 —</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">狀態</label>
+                <select class="form-select" id="al-status" style="max-width:200px">
+                    <option value="approved">直接核准</option>
+                    <option value="pending_supervisor">待主管簽核</option>
+                    <option value="pending_principal">待院長批核</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-ft">
+            <button class="btn btn-outline" onclick="hideModal('modal-add-leave')">取消</button>
+            <button class="btn btn-primary" onclick="submitManualLeave()">新增</button>
+        </div>
     </div>
 </div>
 
@@ -1165,8 +1300,8 @@ const INDIVIDUAL_HIGH = 35;
 const INDIVIDUAL_ZERO = 0;
 
 let cfg = null, db = null, wsId = null;
-let state = { assistants: [], rules: [], transactions: [], overtime: [], signatures: {} };
-let loaded = { a: false, r: false, t: false, s: false };
+let state = { assistants: [], rules: [], transactions: [], overtime: [], signatures: {}, leaveRequests: [] };
+let loaded = { a: false, r: false, t: false, s: false, l: false };
 let appReady = false;
 let currentPage = 'overview';
 let recState = { assistantIds: [], mode: null, ruleIds: [], customPoints: null };
@@ -1199,11 +1334,16 @@ let settings = {
         //   fullAttendance: {[id]: bool}, deductions: {[id]: amount},
         //   followFee: {[id]: {feePerSession, sessions}},
         //   surgeryFee: {reconstruction:{feePerCase}, implant:{feePerCase}, cases:{[id]:{reconstruction,implant}}} }
+    },
+    leaveSettings: {
+        annualLeaveDays: 7,         // base days year 1
+        annualLeaveIncrement: 1,    // extra days per year after year 1 (principal can adjust)
+        leaveAdjustments: {}        // { [assistantId]: { [year]: override_days } }
     }
 };
 // ── Overtime state ────────────────────────────────────────────────
 let otState = { workedShifts: [], otSegKey: null }; // otSegKey = 'shiftId:segIdx'
-let otTab = 'apply'; // 'apply' | 'status'
+let otTab = 'ot-apply'; // 'ot-apply' | 'lv-apply' | 'records'
 let currentOTId = null; // for doctor approval
 
 // ── Salary page state ─────────────────────────────────────────────
@@ -1377,6 +1517,7 @@ function subscribeData() {
       .onSnapshot(snap => {
           state.overtime = snap.docs.map(d=>({id:d.id,...d.data()}));
           if (currentPage==='overtime-apply'||currentPage==='overtime-approve') refreshPage();
+          if (_otHistAsstId && !document.getElementById('modal-ot-history')?.classList.contains('hidden')) renderOTHistoryModal();
           updateDocBadge();
       }, e => console.error('overtime', e));
 
@@ -1387,10 +1528,19 @@ function subscribeData() {
           snap.docs.forEach(d => { state.signatures[d.id] = d.data(); });
           if (currentPage==='myview') refreshPage();
       }, e => console.error('signatures', e));
+
+    // Leave requests
+    db.collection(col('leaveRequests')).orderBy('createdAt','desc').limit(300)
+      .onSnapshot(snap => {
+          state.leaveRequests = snap.docs.map(d=>({id:d.id,...d.data()}));
+          if (currentPage==='leave'||currentPage==='leave-approve') refreshPage();
+          updateLeaveBadge();
+          loaded.l = true; tryReady();
+      }, e => { console.error('leaveRequests', e); loaded.l = true; tryReady(); });
 }
 
 function tryReady() {
-    if (loaded.a && loaded.r && loaded.t && loaded.s) {
+    if (loaded.a && loaded.r && loaded.t && loaded.s && loaded.l) {
         hideLoading();
         applyViewMode();
         if (!appReady) {
@@ -1681,7 +1831,7 @@ const ASST_PAGES = ['myview','overtime-apply'];
 
 function navigate(p) {
     if (viewMode === 'viewer' && p !== 'overview') { showLoginScreen(); return; }
-    if (viewMode === 'manager'   && !['overview','record'].includes(p)) return;
+    if (viewMode === 'manager'   && !['overview','record','leave-approve'].includes(p)) return;
     if (viewMode === 'doctor'    && !['overview','record','overtime-approve'].includes(p)) return;
     if (viewMode === 'assistant' && !['overview','myview','overtime-apply'].includes(p)) return;
     // principal can go anywhere
@@ -1699,6 +1849,7 @@ function renderPage(p) {
       settlement:renderSettlementPage,salary:renderSalaryPage,assistants:renderAssistants,rules:renderRules,
       myview:renderMyView,'overtime-apply':renderOvertimeApply,
       'overtime-approve':renderOvertimeApprove,
+      leave:renderLeave,'leave-approve':renderLeaveApprove,
       'support-report':renderSupportReport})[p]?.();
 }
 function refreshPage() { renderPage(currentPage); }
@@ -2241,6 +2392,20 @@ function calcSeniority(hireDate, m) {
     return Math.max(0, Math.floor((ref - hire) / (365.25 * 24 * 60 * 60 * 1000)));
 }
 
+function calcSeniorityPayAndLabel(hireDate, m) {
+    if (!hireDate) return { pay: 0, label: '' };
+    const hire = new Date(hireDate);
+    const [y, mo] = m.split('-').map(Number);
+    const ref = new Date(y, mo, 0);
+    const diffMs = ref - hire;
+    if (diffMs <= 0) return { pay: 0, label: '' };
+    const totalMonths = Math.floor(diffMs / (30.4375 * 24 * 60 * 60 * 1000));
+    if (totalMonths < 6) return { pay: 0, label: `${totalMonths}月` };
+    if (totalMonths < 12) return { pay: 500, label: '滿6月' };
+    const years = Math.floor(diffMs / (365.25 * 24 * 60 * 60 * 1000));
+    return { pay: years * 1000, label: `${years}年` };
+}
+
 function getSalaryParams(m) {
     const mp  = (settings.salarySettings?.monthlyParams || {})[m]  || {};
     const prevM  = prevMonth(m);
@@ -2294,7 +2459,7 @@ function calcSalaryRows(m) {
         const asst = state.assistants.find(a => a.id === item.id) || {};
         const baseSalary = asst.baseSalary || 0;
         const years = calcSeniority(asst.hireDate, m);
-        const seniorityPay = years * seniorityRate;
+        const { pay: seniorityPay, label: seniorityLabel } = calcSeniorityPayAndLabel(asst.hireDate, m);
         const allowanceTotal = (asst.allowances || []).reduce((sum, k) => {
             const t = getAllowanceTypes().find(x => x.key === k);
             const amt = (asst.allowanceAmounts?.[k] !== undefined) ? asst.allowanceAmounts[k] : (t?.defaultAmount || 0);
@@ -2327,7 +2492,7 @@ function calcSalaryRows(m) {
         return {
             id: item.id, name: item.name, isEligible: item.isEligible,
             points: item.points, pct: item.pct,
-            baseSalary, years, seniorityPay, allowanceTotal, allowanceNames,
+            baseSalary, years, seniorityPay, seniorityLabel, allowanceTotal, allowanceNames,
             perfBonus, otPay, approvedMins, seasonalAdj,
             fullAttendance, fullAttendancePay, deduction,
             followFeePay, ffData, reconPay, implantPay, surgeryFeePay,
@@ -2390,7 +2555,7 @@ function renderSalaryContent() {
                     <input type="number" id="sal-seniority-rate" value="${ss.seniorityRate??1000}" min="0" step="100"
                         style="width:110px;padding:7px 10px;border:1px solid var(--border);border-radius:4px;font-size:var(--fs-base);font-family:inherit;text-align:right;background:var(--surface)">
                 </div>
-                <div style="font-size:var(--fs-sm);color:var(--text-muted)">依到職日自動計算年資，每滿1年增加對應加給</div>
+                <div style="font-size:var(--fs-sm);color:var(--text-muted)">第一年：滿6月＋500，滿1年＋1000；第二年起每滿1年依此設定增加</div>
             </div>
             <!-- 專跟費設定 -->
             <div style="margin-bottom:18px">
@@ -2484,10 +2649,10 @@ function renderSalaryContent() {
                         return `<tr style="${stripe}">
                             <td style="${tdStyle('text-align:left')}">
                                 <div style="font-weight:600">${r.name}</div>
-                                <div style="font-size:var(--fs-sm);color:var(--text-muted)">${r.isEligible?'正職':'試用'}${r.years>0?' · '+r.years+'年':''}</div>
+                                <div style="font-size:var(--fs-sm);color:var(--text-muted)">${r.isEligible?'正職':'試用'}${r.seniorityLabel?' · '+r.seniorityLabel:''}</div>
                             </td>
                             ${td(fmt(r.baseSalary))}
-                            ${td(r.seniorityPay>0?`<div style="font-weight:600">${fmt(r.seniorityPay)}</div><div style="font-size:10px;color:var(--text-muted)">${r.years}年×${(ss.seniorityRate??1000).toLocaleString()}</div>`:'—')}
+                            ${td(r.seniorityPay>0?`<div style="font-weight:600">${fmt(r.seniorityPay)}</div><div style="font-size:10px;color:var(--text-muted)">${r.seniorityLabel}</div>`:'—')}
                             ${td(r.isEligible?`<div style="font-weight:600">${fmt(r.perfBonus)}</div><div style="font-size:10px;color:var(--text-muted)">${r.pct.toFixed(1)}%×1%</div>`:'—')}
                             ${td(r.approvedMins>0?`<div>${fmt(r.otPay)}</div><div style="font-size:10px;color:var(--text-muted)">${r.approvedMins}分</div>`:'—')}
                             ${td(r.isEligible&&r.seasonalAdj!==0?`<span style="color:${r.seasonalAdj>0?'var(--green)':'var(--red)'};font-weight:600">${r.seasonalAdj>0?'+':''}${r.seasonalAdj}</span>`:'—')}
@@ -2888,37 +3053,55 @@ function getSegmentName(seg) {
 function getShiftLabel(sh) { return sh.segments?.length ? sh.segments.map(s=>s.start+'-'+s.end).join('，') : (sh.endTime?'下班 '+sh.endTime:''); }
 function getShiftClass(shiftId) { const idx=settings.shifts.findIndex(s=>s.id===shiftId); return idx===0?'sm':idx===1?'sa':'se'; }
 
-function switchOTTab() {
-    otTab = otTab === 'apply' ? 'status' : 'apply';
+function switchOTTab() { /* legacy — no-op */ }
+function setOTTab(tab) {
+    otTab = tab;
     renderOvertimeApply();
 }
 
 function renderOvertimeApply() {
-    // Update header & toggle
     const titleEl   = document.getElementById('ot-page-title');
     const subEl     = document.getElementById('ot-page-sub');
-    const toggleBtn = document.getElementById('ot-tab-toggle');
     const applyForm = document.getElementById('ot-apply-form');
     const statusSec = document.getElementById('ot-status-content');
-    if (otTab === 'status') {
-        if (titleEl)   titleEl.textContent = '加班記錄';
-        if (subEl)     subEl.textContent   = '申請狀態及本月累計';
-        if (toggleBtn) toggleBtn.textContent = '＋ 申請加班';
-        if (applyForm) applyForm.style.display = 'none';
-        if (statusSec) statusSec.style.display = '';
-        renderOvertimeStatus();
+    const lvForm    = document.getElementById('lv-apply-form');
+    const recSec    = document.getElementById('combined-records-content');
+
+    // Update tab button active states
+    ['ot-apply','lv-apply','records'].forEach(t => {
+        document.getElementById('tbb-'+t)?.classList.toggle('active', otTab === t);
+    });
+
+    // Show/hide panels
+    const show = id => { const el = document.getElementById(id); if (el) el.style.display = ''; };
+    const hide = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
+
+    if (otTab === 'records') {
+        if (titleEl) titleEl.textContent = '記錄';
+        if (subEl)   subEl.textContent   = '加班及請假申請記錄';
+        hide('ot-apply-form'); hide('ot-status-content'); hide('lv-apply-form');
+        show('combined-records-content');
+        renderCombinedRecords();
         return;
     }
-    if (titleEl)   titleEl.textContent = '申請加班';
-    if (subEl)     subEl.textContent   = '填寫加班申請單';
-    if (toggleBtn) toggleBtn.textContent = '📋 加班記錄';
-    if (applyForm) applyForm.style.display = '';
-    if (statusSec) statusSec.style.display = 'none';
+    if (otTab === 'lv-apply') {
+        if (titleEl) titleEl.textContent = '申請請假';
+        if (subEl)   subEl.textContent   = '填寫請假申請單';
+        hide('ot-apply-form'); hide('ot-status-content'); hide('combined-records-content');
+        show('lv-apply-form');
+        renderLeaveForm();
+        return;
+    }
+    // ot-apply (default)
+    if (titleEl) titleEl.textContent = '加班及請假';
+    if (subEl)   subEl.textContent   = '填寫加班申請單';
+    hide('ot-status-content'); hide('lv-apply-form'); hide('combined-records-content');
+    show('ot-apply-form');
 
     // Date — restrict to past 3 days
     const dateEl = document.getElementById('ot-date');
     const todayStr = today();
-    const d3 = new Date(); d3.setDate(d3.getDate() - 3);
+    const d3 = new Date(); d3.setDate(d3.getDate() - 2);
     const minStr = `${d3.getFullYear()}-${String(d3.getMonth()+1).padStart(2,'0')}-${String(d3.getDate()).padStart(2,'0')}`;
     dateEl.max = todayStr; dateEl.min = minStr;
     if (!dateEl.value || dateEl.value < minStr || dateEl.value > todayStr) dateEl.value = todayStr;
@@ -2930,7 +3113,7 @@ function renderOvertimeApply() {
             onclick="toggleOTWorkedShift('${sh.id}')">${sh.name}<br><span style="font-size:11.5px;font-weight:400;opacity:.8">${sh.segments?.map(s=>s.start+'–'+s.end).join('<br>') || (sh.endTime?sh.endTime:'')}</span></button>
     `).join('');
 
-    // OT shift section — show individual segments from all selected worked shifts
+    // OT shift section
     const otSec = document.getElementById('ot-overtime-section');
     if (!otState.workedShifts.length) { otSec.style.display='none'; return; }
     otSec.style.display='';
@@ -2964,7 +3147,6 @@ function renderOvertimeApply() {
             ? settings.doctors.map(d=>`<option value="${d.name}">${d.name}</option>`).join('')
             : '<option value="">（尚無醫師帳號）</option>';
     }
-
     updateOTCalc();
 }
 
@@ -3052,8 +3234,11 @@ async function submitOvertimeApply() {
 
 function renderOvertimeStatus() {
     const a = currentAssistantView; if (!a) return;
-    const myRecords = state.overtime.filter(r=>r.assistantId===a.id)
-        .sort((x,y)=>new Date(y.date)-new Date(x.date));
+    const months6 = last6Months();
+    const oldest = months6[months6.length - 1];
+    const myRecords = state.overtime
+        .filter(r => r.assistantId === a.id && r.date.slice(0, 7) >= oldest)
+        .sort((x,y) => new Date(y.date) - new Date(x.date));
     const m = currentMonth();
     const monthRecords = myRecords.filter(r=>r.date.startsWith(m));
     const totalMins = monthRecords.filter(r=>r.status==='approved').reduce((s,r)=>s+r.overtimeMinutes,0);
@@ -3091,8 +3276,8 @@ function renderOvertimeStatus() {
             ${pending.map(renderRecord).join('')}
         </div>` : ''}
         <div class="section">
-            <div class="sec-title" style="margin-bottom:10px">所有申請記錄</div>
-            ${myRecords.length ? myRecords.map(renderRecord).join('') : '<div class="empty-state"><p>尚無申請記錄</p></div>'}
+            <div class="sec-title" style="margin-bottom:10px">近 6 個月申請記錄</div>
+            ${myRecords.length ? myRecords.map(renderRecord).join('') : '<div class="empty-state"><p>近 6 個月尚無申請記錄</p></div>'}
         </div>`;
 }
 
@@ -3111,22 +3296,25 @@ function renderOvertimeApprove() {
         const m = currentMonth();
         const monthApproved = state.overtime.filter(r => r.status === 'approved' && r.date.startsWith(m));
         const totalMins = monthApproved.reduce((s,r) => s + r.overtimeMinutes, 0);
-        // per-assistant
-        const byAsst = {};
+        // Per-assistant — include ALL active assistants (even 0)
+        const byAsstId = {};
         monthApproved.forEach(r => {
-            byAsst[r.assistantName] = (byAsst[r.assistantName] || 0) + r.overtimeMinutes;
+            byAsstId[r.assistantId] = (byAsstId[r.assistantId] || 0) + r.overtimeMinutes;
         });
-        const asstCards = Object.entries(byAsst).sort((a,b)=>b[1]-a[1]).map(([name,mins])=>`
-            <div class="ot-stat-card">
-                <div class="sc-name">${name}</div>
-                <div class="sc-val">${formatOTDuration(mins)}</div>
+        const asstCards = state.assistants.filter(a=>a.active).sort((a,b)=>a.name.localeCompare(b.name,'zh-TW')).map(a => {
+            const mins = byAsstId[a.id] || 0;
+            return `<div class="ot-stat-card" style="position:relative">
+                <div class="sc-name">${a.name}</div>
+                <div class="sc-val" style="font-size:18px">${formatOTDuration(mins)}</div>
                 <div class="sc-sub">${mins} 分鐘</div>
-            </div>`).join('');
+                <button onclick="openOTHistory('${a.id}','${a.name}')" style="margin-top:8px;width:100%;padding:4px 0;font-size:11px;border:1px solid var(--border);border-radius:4px;background:var(--surface-alt);cursor:pointer;font-family:inherit;color:var(--text-secondary)">${PENCIL_ICON} 查看/調整</button>
+            </div>`;
+        }).join('');
 
         statsHtml = `
         <div class="section">
-            <div class="sec-header"><div class="sec-title">本月加班統計</div><span style="font-size:12.5px;color:var(--text-muted)">${m}</span></div>
-            <div class="ot-stat-grid">
+            <div class="sec-header"><div class="sec-title">本月加班時數總覽</div><span style="font-size:12.5px;color:var(--text-muted)">${m}</span></div>
+            <div class="ot-stat-grid" style="margin-bottom:14px">
                 <div class="ot-stat-card total-card">
                     <div class="sc-name">所有助理合計</div>
                     <div class="sc-val">${formatOTDuration(totalMins)}</div>
@@ -3174,6 +3362,7 @@ function renderOvertimeApprove() {
                     <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.9">
                         班別：${r.otShiftName}　下班：${r.scheduledEnd}　實際：${r.actualEnd}<br>
                         加班：<span class="pp" style="font-weight:700">${formatOTDuration(r.overtimeMinutes)}</span>
+                        ${isPrincipal?`<button class="btn btn-outline btn-sm" style="font-size:11px;padding:2px 7px;margin-left:8px" onclick="editOTMinutes('${r.id}',${r.overtimeMinutes})">${PENCIL_ICON} 調整</button>`:''}
                         ${r.note?`<br>備注：${r.note}`:''}
                     </div>
                     <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
@@ -3197,7 +3386,10 @@ function renderOvertimeApprove() {
                             ${isPrincipal?`<button class="btn btn-outline btn-sm" onclick="unapproveOTRecord('${r.id}')">取消簽核</button>`:''}
                         </div>
                     </div>
-                    <div style="font-size:12.5px;color:var(--text-muted)">${formatOTDuration(r.overtimeMinutes)}</div>
+                    <div style="font-size:12.5px;color:var(--text-muted)">
+                        ${formatOTDuration(r.overtimeMinutes)}
+                        ${isPrincipal?`<button class="btn btn-outline btn-sm" style="font-size:11px;padding:2px 7px;margin-left:8px" onclick="editOTMinutes('${r.id}',${r.overtimeMinutes})">${PENCIL_ICON} 調整</button>`:''}
+                    </div>
                     ${r.approverSignature?`<img class="ot-sig-img sig-zoomable" src="${r.approverSignature}" alt="簽名" onclick="openImgZoom(this.src)"><div style="font-size:10px;color:var(--text-muted);margin-top:3px">${r.approverName} 簽核${r.approvedAt?' · '+fmtTimestamp(r.approvedAt):''}</div>` : ''}
                 </div>
             </div>`).join('')}
@@ -3220,6 +3412,125 @@ function renderOvertimeApprove() {
 
     if (isPrincipal) setTimeout(() => renderOTChart(state.overtime), 50);
     updateOTSelBar();
+}
+
+async function editOTMinutes(id, currentMins) {
+    const input = prompt(`調整加班分鐘數（目前：${currentMins} 分鐘）\n請輸入新的分鐘數：`, currentMins);
+    if (input === null) return;
+    const newMins = parseInt(input);
+    if (isNaN(newMins) || newMins < 0) { toast('請輸入有效的分鐘數'); return; }
+    try {
+        await db.collection(col('overtime')).doc(id).update({ overtimeMinutes: newMins });
+        toast(`已更新為 ${formatOTDuration(newMins)}`);
+    } catch(e) { toast('更新失敗：' + e.message); }
+}
+
+async function addOTAdjustment(assistantId, assistantName) {
+    const m = currentMonth();
+    const monthApproved = state.overtime.filter(r => r.assistantId === assistantId && r.status === 'approved' && r.date.startsWith(m));
+    const currentTotal = monthApproved.reduce((s,r) => s + r.overtimeMinutes, 0);
+    const input = prompt(`${assistantName} 本月核准時數：${formatOTDuration(currentTotal)}（${currentTotal} 分鐘）\n請輸入調整分鐘數（正數加、負數減）：`, 0);
+    if (input === null) return;
+    const adj = parseInt(input);
+    if (isNaN(adj) || adj === 0) { toast('未輸入有效調整值'); return; }
+    const today = new Date().toISOString().slice(0,10);
+    try {
+        await db.collection(col('overtime')).add({
+            assistantId, assistantName, date: today,
+            workedShifts: [], otShiftId: 'manual', otShiftName: '手動調整',
+            scheduledEnd: '—', actualEnd: '—',
+            overtimeMinutes: adj,
+            approverName: '院長', status: 'approved', approverSignature: null,
+            note: `手動調整（${adj > 0 ? '+' : ''}${adj} 分鐘）`,
+            createdAt: new Date().toISOString(), type: 'adjustment'
+        });
+        toast(`已新增調整：${adj > 0 ? '+' : ''}${adj} 分鐘`);
+    } catch(e) { toast('新增失敗：' + e.message); }
+}
+
+// ─── OT History Modal (principal) ────────────────────────────────
+let _otHistAsstId = null, _otHistAsstName = '';
+function openOTHistory(assistantId, assistantName) {
+    _otHistAsstId = assistantId; _otHistAsstName = assistantName;
+    const titleEl = document.getElementById('ot-hist-title');
+    if (titleEl) titleEl.textContent = `${assistantName} — 近半年加班紀錄`;
+    renderOTHistoryModal();
+    document.getElementById('modal-ot-history')?.classList.remove('hidden');
+}
+function renderOTHistoryModal() {
+    const el = document.getElementById('ot-hist-body'); if (!el) return;
+    const months6 = last6Months();
+    const oldest = months6[months6.length - 1];
+    const todayStr = today();
+    // min date = first day of oldest month in window
+    const minDate = oldest + '-01';
+    const recs = state.overtime
+        .filter(r => r.assistantId === _otHistAsstId && r.date.slice(0,7) >= oldest)
+        .sort((a,b) => new Date(b.date) - new Date(a.date));
+    const totalApproved = recs.filter(r=>r.status==='approved').reduce((s,r)=>s+r.overtimeMinutes,0);
+    el.innerHTML = `
+        <div style="margin-bottom:12px;padding:10px 12px;background:var(--surface-alt);border-radius:6px;font-size:var(--fs-sm)">
+            <span style="color:var(--text-muted)">近半年核准合計：</span>
+            <span style="font-weight:700;color:var(--accent)">${formatOTDuration(totalApproved)}</span>
+            <span style="color:var(--text-muted);margin-left:4px">（${totalApproved} 分鐘）</span>
+        </div>
+        ${recs.length ? recs.map(r=>`
+        <div class="ot-record" style="margin-bottom:8px">
+            <div class="ot-record-hd">
+                <div>
+                    <span style="font-weight:600;font-size:var(--fs-base)">${r.date}</span>
+                    <span style="color:var(--text-muted);font-size:var(--fs-sm);margin-left:8px">${r.otShiftName}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <span class="${r.status==='approved'?'ot-appr':r.status==='rejected'?'badge br':'ot-pend'}">${r.status==='approved'?'已簽核':r.status==='rejected'?'已退回':'待簽核'}</span>
+                    <button class="btn btn-outline btn-sm" style="font-size:10px;padding:2px 6px" onclick="editOTMinutesAndRefresh('${r.id}',${r.overtimeMinutes})">${PENCIL_ICON} 調整</button>
+                </div>
+            </div>
+            <div style="font-size:var(--fs-sm);color:var(--text-secondary)">
+                ${formatOTDuration(r.overtimeMinutes)}
+                ${r.note?`<span style="color:var(--text-muted);margin-left:8px">${r.note}</span>`:''}
+            </div>
+        </div>`).join('') : '<div class="empty-state" style="margin-bottom:12px"><p>近半年無加班紀錄</p></div>'}
+        <div style="margin-top:14px;padding:14px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface-alt)">
+            <div style="font-size:var(--fs-sm);font-weight:700;color:var(--text-primary);margin-bottom:10px">新增調整紀錄</div>
+            <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+                <div>
+                    <div style="font-size:var(--fs-xs);color:var(--text-muted);margin-bottom:4px">日期（近半年）</div>
+                    <input type="date" id="ot-adj-date" class="form-input" style="max-width:160px"
+                        min="${minDate}" max="${todayStr}" value="${todayStr}">
+                </div>
+                <div>
+                    <div style="font-size:var(--fs-xs);color:var(--text-muted);margin-bottom:4px">調整分鐘數（正加 / 負減）</div>
+                    <input type="number" id="ot-adj-mins" class="form-input" style="max-width:120px" placeholder="例：30 或 -15">
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="submitOTAdjustmentFromModal()">新增</button>
+            </div>
+        </div>`;
+}
+async function editOTMinutesAndRefresh(id, currentMins) {
+    await editOTMinutes(id, currentMins);
+    renderOTHistoryModal();
+}
+async function submitOTAdjustmentFromModal() {
+    if (!_otHistAsstId) return;
+    const dateEl = document.getElementById('ot-adj-date');
+    const minsEl = document.getElementById('ot-adj-mins');
+    const dateVal = dateEl?.value;
+    const adj = parseInt(minsEl?.value);
+    if (!dateVal) { toast('請選擇日期'); return; }
+    if (isNaN(adj) || adj === 0) { toast('請輸入有效調整分鐘數（不可為 0）'); return; }
+    try {
+        await db.collection(col('overtime')).add({
+            assistantId: _otHistAsstId, assistantName: _otHistAsstName, date: dateVal,
+            workedShifts: [], otShiftId: 'manual', otShiftName: '手動調整',
+            scheduledEnd: '—', actualEnd: '—',
+            overtimeMinutes: adj, approverName: '院長', status: 'approved', approverSignature: null,
+            note: `手動調整（${adj > 0 ? '+' : ''}${adj} 分鐘）`,
+            createdAt: new Date().toISOString(), type: 'adjustment'
+        });
+        if (minsEl) minsEl.value = '';
+        toast(`已新增調整：${adj > 0 ? '+' : ''}${adj} 分鐘`);
+    } catch(e) { toast('新增失敗：' + e.message); }
 }
 
 function renderOTChart(records) {
@@ -3394,8 +3705,8 @@ function applyViewMode() {
         chip.className = 'mode-chip' + (isPrincipal||isManager?' admin':isAsst||isDoctor?' assistant':'');
     }
 
-    if (isPrincipal) { if (!['overview','record','history','settlement','salary','assistants','rules','overtime-apply','overtime-approve','support-report'].includes(currentPage)) navigate('overview'); else refreshPage(); return; }
-    if (isManager)   { if (currentPage !== 'record' && currentPage !== 'overview') navigate('record'); else refreshPage(); return; }
+    if (isPrincipal) { if (!['overview','record','history','settlement','salary','assistants','rules','overtime-apply','overtime-approve','support-report','leave','leave-approve'].includes(currentPage)) navigate('overview'); else refreshPage(); return; }
+    if (isManager)   { if (!['overview','record','leave-approve'].includes(currentPage)) navigate('record'); else refreshPage(); return; }
     if (isDoctor)    { if (!['record','overtime-approve'].includes(currentPage)) navigate('record'); else refreshPage(); return; }
     if (isAsst)      { if (!['myview','overtime-apply'].includes(currentPage)) navigate('myview'); else refreshPage(); return; }
     if (currentPage !== 'overview') navigate('overview'); else refreshPage();
@@ -3733,6 +4044,612 @@ async function saveSupportReport() {
         await db.collection(col('settings')).doc('main').update({ doctorSupport: data });
         settings.doctorSupport = data;
         toast('資料已儲存');
+    } catch(e) { toast('儲存失敗：'+e.message); }
+}
+
+// ================================================================
+// LEAVE SYSTEM
+// ================================================================
+
+const PENCIL_ICON = `<svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor" style="vertical-align:-1px;flex-shrink:0"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>`;
+
+let leaveSelected = new Set();
+
+const LEAVE_TYPES = [
+    { key: 'annual',   label: '特休',   cls: 'sel-annual',   badge: 'lb-annual' },
+    { key: 'sick',     label: '病假',   cls: 'sel-sick',     badge: 'lb-sick' },
+    { key: 'personal', label: '事假',   cls: 'sel-personal', badge: 'lb-personal' },
+    { key: 'other',    label: '其他',   cls: 'sel-other',    badge: 'lb-other' },
+];
+const LEAVE_SUB_TYPES = [
+    { key: 'menstrual',   label: '生理假' },
+    { key: 'bereavement', label: '喪假' },
+    { key: 'marriage',    label: '婚假' },
+    { key: 'maternity',   label: '產假' },
+    { key: 'workInjury',  label: '工傷病假' },
+];
+
+function leaveTypeLabel(type, subType) {
+    if (type === 'other' && subType) return LEAVE_SUB_TYPES.find(s=>s.key===subType)?.label || '其他';
+    return LEAVE_TYPES.find(t=>t.key===type)?.label || type;
+}
+function leaveTypeBadgeCls(type) {
+    return LEAVE_TYPES.find(t=>t.key===type)?.badge || 'lb-other';
+}
+function leaveStatusLabel(status) {
+    return { pending_supervisor:'待主管簽核', pending_principal:'待院長簽核', approved:'已批准', rejected:'已退回' }[status] || status;
+}
+function leaveStatusBadgeCls(status) {
+    return { pending_supervisor:'lb-pending-s', pending_principal:'lb-pending-p', approved:'lb-approved', rejected:'lb-rejected' }[status] || 'lb-other';
+}
+
+function calcAnnualLeaveEntitlement(asst, year) {
+    const ls = settings.leaveSettings || {};
+    const base = ls.annualLeaveDays ?? 7;
+    const increment = ls.annualLeaveIncrement ?? 1;
+    const adj = ls.leaveAdjustments?.[asst.id]?.[String(year)];
+    if (adj !== undefined) return adj;
+    if (!asst.hireDate) return base;
+    const hireYear = new Date(asst.hireDate).getFullYear();
+    const yearsOfService = Math.max(0, year - hireYear);
+    return base + yearsOfService * increment;
+}
+
+function calcAnnualLeaveUsed(asstId, year) {
+    return state.leaveRequests.filter(r =>
+        r.assistantId === asstId &&
+        r.leaveType === 'annual' &&
+        r.status === 'approved' &&
+        (r.dates || []).some(d => d.startsWith(String(year)))
+    ).reduce((sum, r) => sum + (r.dates || []).filter(d=>d.startsWith(String(year))).length, 0);
+}
+
+function calcTotalLeaveDays(asstId, year) {
+    return state.leaveRequests.filter(r =>
+        r.assistantId === asstId &&
+        r.status === 'approved' &&
+        (r.dates || []).some(d => d.startsWith(String(year)))
+    ).reduce((sum, r) => sum + (r.dates || []).filter(d=>d.startsWith(String(year))).length, 0);
+}
+
+function updateLeaveBadge() {
+    const isPrincipal = viewMode === 'principal';
+    const isMgr = viewMode === 'manager';
+    const count = state.leaveRequests.filter(r => {
+        if (isPrincipal) return r.status === 'pending_principal';
+        if (isMgr) return r.status === 'pending_supervisor' && r.approverName === currentOperator;
+        return false;
+    }).length;
+    const badge = document.getElementById('leave-pending-badge');
+    if (!badge) return;
+    badge.textContent = count;
+    badge.classList.toggle('hidden', count === 0);
+}
+
+// ─── renderLeave (principal annual overview page) ─────────────────
+function renderLeave() {
+    const el = document.getElementById('leave-content'); if (!el) return;
+    const year = new Date().getFullYear();
+    renderLeavePrincipal(el, year);
+}
+
+// ─── renderLeaveForm (injected into combined page for assistants) ──
+function renderLeaveForm() {
+    const asst = currentAssistantView;
+    const el = document.getElementById('lv-apply-form'); if (!el) return;
+    if (!asst) { el.innerHTML = '<div class="empty-state"><p>請先登入助理帳號</p></div>'; return; }
+    const year = new Date().getFullYear();
+    const entitled = calcAnnualLeaveEntitlement(asst, year);
+    const used = calcAnnualLeaveUsed(asst.id, year);
+    const remaining = Math.max(0, entitled - used);
+    const managers = settings.managers || [];
+
+    el.innerHTML = `
+        <div class="card section">
+            <div class="card-title">本年度特休（${year}）</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center">
+                <div><div style="font-size:var(--fs-disp);font-weight:700;color:var(--accent)">${entitled}</div><div style="font-size:var(--fs-sm);color:var(--text-muted);margin-top:4px">應得天數</div></div>
+                <div><div style="font-size:var(--fs-disp);font-weight:700;color:var(--red)">${used}</div><div style="font-size:var(--fs-sm);color:var(--text-muted);margin-top:4px">已使用</div></div>
+                <div><div style="font-size:var(--fs-disp);font-weight:700;color:var(--green)">${remaining}</div><div style="font-size:var(--fs-sm);color:var(--text-muted);margin-top:4px">剩餘天數</div></div>
+            </div>
+        </div>
+        <div class="card section">
+            <div class="card-title">申請請假</div>
+            <div class="form-group">
+                <label class="form-label">假別</label>
+                <div class="leave-type-grid" id="lv-type-grid">
+                    ${LEAVE_TYPES.map(t=>`<button class="leave-type-btn" data-ltype="${t.key}" onclick="selectLeaveType('${t.key}')">${t.label}</button>`).join('')}
+                </div>
+            </div>
+            <div id="lv-subtype-wrap" style="display:none" class="form-group">
+                <label class="form-label">其他假別</label>
+                <select class="form-select" id="lv-subtype" style="max-width:200px">
+                    ${LEAVE_SUB_TYPES.map(s=>`<option value="${s.key}">${s.label}</option>`).join('')}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">請假日期（可複選多天）</label>
+                <div id="lv-dates-list" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px"></div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <input type="date" class="form-input" id="lv-date-add" style="max-width:180px">
+                    <button class="btn btn-outline btn-sm" onclick="addLeaveDate()">＋ 加入日期</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">代理人</label>
+                <select class="form-select" id="lv-proxy" style="max-width:200px">
+                    <option value="">— 請選擇 —</option>
+                    ${state.assistants.filter(a=>a.active&&a.id!==asst.id).map(a=>`<option value="${a.id}" data-name="${a.name}">${a.name}</option>`).join('')}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">簽核主管</label>
+                <select class="form-select" id="lv-approver" style="max-width:200px">
+                    <option value="">— 請選擇 —</option>
+                    ${managers.length ? managers.map(m=>`<option value="${m.name}">${m.name}</option>`).join('') : '<option disabled>（尚無管理者帳號）</option>'}
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="submitLeaveRequest()">送出簽核申請</button>
+        </div>`;
+
+    const dateEl = document.getElementById('lv-date-add');
+    if (dateEl && !dateEl.value) dateEl.value = today();
+    window._leaveDates = [];
+}
+
+// ─── renderCombinedRecords (OT + Leave combined for assistant) ─────
+function renderCombinedRecords() {
+    const asst = currentAssistantView;
+    const el = document.getElementById('combined-records-content'); if (!el) return;
+    if (!asst) { el.innerHTML = '<div class="empty-state"><p>請先登入助理帳號</p></div>'; return; }
+    const months6 = last6Months();
+    const oldest = months6[months6.length - 1];
+    const m = currentMonth();
+
+    // OT records (last 6 months)
+    const otRecs = state.overtime
+        .filter(r => r.assistantId === asst.id && r.date.slice(0,7) >= oldest)
+        .sort((x,y) => new Date(y.date) - new Date(x.date));
+    const monthOT = otRecs.filter(r => r.date.startsWith(m) && r.status==='approved');
+    const totalMins = monthOT.reduce((s,r) => s+r.overtimeMinutes, 0);
+    const pendingOT = otRecs.filter(r => r.status === 'pending');
+
+    const renderOTRow = (r) => {
+        const sig = r.approverSignature ? `<img class="ot-sig-img sig-zoomable" src="${r.approverSignature}" alt="${r.approverName}簽名" onclick="openImgZoom(this.src)"><div style="font-size:10px;color:var(--text-muted);margin-top:3px">${r.approverName} 簽核${r.approvedAt?' · '+fmtTimestamp(r.approvedAt):''}</div>` : '';
+        return `<div class="ot-record">
+            <div class="ot-record-hd">
+                <div>
+                    <span style="font-weight:700;font-size:var(--fs-base)">${r.date}</span>
+                    <span style="color:var(--text-muted);font-size:var(--fs-sm);margin-left:8px">${r.otShiftName}</span>
+                </div>
+                <span class="${r.status==='approved'?'ot-appr':r.status==='rejected'?'badge br':'ot-pend'}">${r.status==='approved'?'已簽核':r.status==='rejected'?'已退回':'待簽核'}</span>
+            </div>
+            <div style="font-size:var(--fs-sm);color:var(--text-secondary);line-height:1.8">
+                ${r.scheduledEnd} → ${r.actualEnd}
+                <span class="pp" style="margin-left:8px">+${formatOTDuration(r.overtimeMinutes)}</span>
+                <span style="color:var(--text-muted);margin-left:8px">簽核：${r.approverName}</span>
+            </div>
+            ${r.note?`<div style="font-size:var(--fs-sm);color:var(--text-muted);margin-top:4px">${r.note}</div>`:''}
+            ${sig}
+        </div>`;
+    };
+
+    // Leave records (current year)
+    const thisYear = String(new Date().getFullYear());
+    const lvRecs = state.leaveRequests
+        .filter(r => r.assistantId === asst.id && (r.dates||[]).some(d => d.startsWith(thisYear)))
+        .sort((a,b) => (b.dates?.[0]||'') > (a.dates?.[0]||'') ? 1 : -1);
+    const pendingLV = lvRecs.filter(r => r.status === 'pending_supervisor' || r.status === 'pending_principal');
+    const doneLV    = lvRecs.filter(r => r.status === 'approved' || r.status === 'rejected');
+
+    el.innerHTML = `
+        <div class="stat-card section">
+            <div class="lb">本月已核加班時數</div>
+            <div class="val" style="color:var(--accent)">${formatOTDuration(totalMins)}</div>
+            <div class="sub">${monthOT.length} 筆已簽核</div>
+        </div>
+        ${pendingOT.length || pendingLV.length ? `<div class="section">
+            <div class="sec-title" style="margin-bottom:10px;color:var(--text-secondary)">待簽核（${pendingOT.length+pendingLV.length}）</div>
+            ${pendingOT.map(renderOTRow).join('')}
+            ${pendingLV.map(r=>renderLeaveCard(r)).join('')}
+        </div>` : ''}
+        <div class="section">
+            <div class="sec-title" style="margin-bottom:10px">加班記錄（近 6 個月）</div>
+            ${otRecs.filter(r=>r.status!=='pending').length ? otRecs.filter(r=>r.status!=='pending').map(renderOTRow).join('') : '<div class="empty-state"><p>近 6 個月尚無加班記錄</p></div>'}
+        </div>
+        <div class="section">
+            <div class="sec-title" style="margin-bottom:10px">請假記錄</div>
+            ${doneLV.length ? doneLV.map(r=>renderLeaveCard(r)).join('') : '<div class="empty-state"><p>尚無請假記錄</p></div>'}
+        </div>`;
+}
+
+function renderLeavePrincipal(el, year) {
+    const ls = settings.leaveSettings || {};
+    const increment = ls.annualLeaveIncrement ?? 1;
+    const activeAsts = state.assistants.filter(a=>a.active).sort((a,b)=>a.name.localeCompare(b.name,'zh-TW'));
+
+    const annualCards = activeAsts.map(a => {
+        const entitled = calcAnnualLeaveEntitlement(a, year);
+        const used     = calcAnnualLeaveUsed(a.id, year);
+        const remaining = Math.max(0, entitled - used);
+        const totalDays = calcTotalLeaveDays(a.id, year);
+        return `<div class="annual-card">
+            <div class="ac-name">${a.name}</div>
+            <div class="ac-bars">
+                <div class="ac-bar-item"><div class="ac-bar-val" style="color:var(--accent)">${entitled}</div><div class="ac-bar-lbl">特休總天數</div></div>
+                <div class="ac-bar-item"><div class="ac-bar-val" style="color:var(--green)">${remaining}</div><div class="ac-bar-lbl">特休剩餘</div></div>
+                <div class="ac-bar-item"><div class="ac-bar-val" style="color:var(--text-secondary)">${totalDays}</div><div class="ac-bar-lbl">總請假天數</div></div>
+            </div>
+            <button onclick="adjustAnnualLeave('${a.id}','${a.name}',${year},${entitled})" style="margin-top:10px;width:100%;display:flex;align-items:center;justify-content:center;gap:5px;padding:5px 0;font-size:var(--fs-sm);border:1px solid var(--border);border-radius:4px;background:var(--surface-alt);cursor:pointer;font-family:inherit;color:var(--text-secondary);transition:background .15s" onmouseover="this.style.background='var(--surface)'" onmouseout="this.style.background='var(--surface-alt)'">${PENCIL_ICON} 調整天數</button>
+        </div>`;
+    }).join('');
+
+    const sortedReqs = [...state.leaveRequests].sort((a,b)=>(b.dates?.[0]||'')>(a.dates?.[0]||'')?1:-1);
+    const pending  = sortedReqs.filter(r => r.status === 'pending_principal');
+    const others   = sortedReqs.filter(r => r.status !== 'pending_principal');
+
+    el.innerHTML = `
+        <div class="card section">
+            <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+                <span>各助理年假概況（${year}）</span>
+                <div style="display:flex;align-items:center;gap:10px;font-size:var(--fs-sm)">
+                <button class="btn btn-outline btn-sm" onclick="openAddLeaveModal()">＋ 新增請假紀錄</button>
+                    <span style="color:var(--text-muted)">特休每年增加：</span>
+                    <input type="number" id="leave-increment-input" value="${increment}" min="0" max="10" step="1"
+                        style="width:55px;padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-size:var(--fs-base);font-family:inherit;text-align:center;background:var(--surface)">
+                    <span style="color:var(--text-muted)">天</span>
+                    <button class="btn btn-outline btn-sm" onclick="saveLeaveIncrement()">儲存</button>
+                </div>
+            </div>
+            <div class="annual-grid">${annualCards}</div>
+        </div>
+        ${pending.length ? `<div class="section">
+            <div class="sec-title" style="margin-bottom:10px">待院長批核（${pending.length}）</div>
+            ${pending.map(r=>renderLeaveApproveCard(r,true)).join('')}
+        </div>` : ''}
+        ${others.length ? `<div class="section">
+            <div class="sec-header">
+                <div class="sec-title">所有假勤記錄</div>
+                <div style="display:flex;gap:8px">
+                    <button class="btn btn-outline btn-sm" id="lv-sel-toggle" onclick="toggleLeaveSelMode()"
+                        style="${leaveSelected.size>0?'display:flex':''}">多選刪除</button>
+                    ${leaveSelected.size>0?`<button class="btn btn-danger btn-sm" onclick="deleteSelectedLeave()">刪除（${leaveSelected.size}）</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearLeaveSelection()">取消</button>`:''}
+                </div>
+            </div>
+            <div style="margin-top:10px">
+            ${others.map(r=>renderLeaveCard(r, true)).join('')}
+            </div>
+        </div>` : ''}`;
+}
+
+function renderLeaveCard(r, selectable) {
+    const typeLabel = leaveTypeLabel(r.leaveType, r.leaveSubType);
+    const badgeCls  = leaveTypeBadgeCls(r.leaveType);
+    const statusCls = leaveStatusBadgeCls(r.status);
+    const datesStr  = (r.dates || []).join('、');
+    const chkHtml = selectable
+        ? `<input type="checkbox" class="row-chk" data-lid="${r.id}" ${leaveSelected.has(r.id)?'checked':''} onchange="toggleLeaveRow('${r.id}',this)" style="margin-right:6px;flex-shrink:0">`
+        : '';
+    return `<div class="leave-card" style="display:flex;gap:8px;align-items:flex-start">
+        ${chkHtml}
+        <div style="flex:1;min-width:0">
+            <div class="leave-card-hd">
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                    <span class="leave-badge ${badgeCls}">${typeLabel}</span>
+                    <span style="font-weight:600;font-size:var(--fs-base)">${datesStr}</span>
+                    <span style="font-size:var(--fs-sm);color:var(--text-muted)">（${(r.dates||[]).length}天）</span>
+                </div>
+                <span class="leave-badge ${statusCls}">${leaveStatusLabel(r.status)}</span>
+            </div>
+            <div style="font-size:var(--fs-sm);color:var(--text-muted);line-height:1.7">
+                代理：${r.proxyName||'—'}　主管：${r.approverName||'—'}
+            </div>
+            ${r.status==='rejected'?`<div style="font-size:var(--fs-sm);color:var(--red);margin-top:4px">退回原因：${r.rejectReason||'—'}</div>`:''}
+        </div>
+    </div>`;
+}
+
+function renderLeaveApproveCard(r, isPrincipalView) {
+    const typeLabel = leaveTypeLabel(r.leaveType, r.leaveSubType);
+    const badgeCls  = leaveTypeBadgeCls(r.leaveType);
+    const datesStr  = (r.dates || []).join('、');
+    return `<div class="leave-card">
+        <div class="leave-card-hd">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font-weight:700;font-size:var(--fs-sub)">${r.assistantName}</span>
+                <span class="leave-badge ${badgeCls}">${typeLabel}</span>
+                ${isPrincipalView?'':'<span class="leave-badge lb-pending-s">待主管簽核</span>'}
+                ${isPrincipalView?'<span class="leave-badge lb-pending-p">待院長批核</span>':''}
+            </div>
+        </div>
+        <div style="font-size:var(--fs-sm);color:var(--text-secondary);line-height:1.8;margin-bottom:8px">
+            日期：${datesStr}（${(r.dates||[]).length}天）<br>
+            代理：${r.proxyName||'—'}　主管：${r.approverName||'—'}
+            ${r.supervisorApprovedAt?`<br><span style="color:var(--green);font-size:var(--fs-xs)">✓ 主管已批核 ${fmtTimestamp(r.supervisorApprovedAt)}</span>`:''}
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="approveLeave('${r.id}')">批准</button>
+            <button class="btn btn-outline btn-sm" onclick="rejectLeave('${r.id}')" style="color:var(--red);border-color:var(--red-border)">退回</button>
+        </div>
+    </div>`;
+}
+
+// ─── renderLeaveApprove ──────────────────────────────────────────
+function renderLeaveApprove() {
+    const el = document.getElementById('leave-approve-content'); if (!el) return;
+    const isPrincipal = viewMode === 'principal';
+    const isMgr = viewMode === 'manager';
+
+    const pendingForMe = state.leaveRequests.filter(r => {
+        if (isPrincipal) return r.status === 'pending_principal';
+        if (isMgr)       return r.status === 'pending_supervisor' && r.approverName === currentOperator;
+        return false;
+    }).sort((a,b)=>(b.createdAt||'')>(a.createdAt||'')?1:-1);
+
+    const myName = isPrincipal ? '院長' : currentOperator;
+    const others = state.leaveRequests.filter(r => {
+        if (isPrincipal) return r.status !== 'pending_principal';
+        return r.approverName === myName && r.status !== 'pending_supervisor';
+    }).sort((a,b)=>(b.dates?.[0]||'')>(a.dates?.[0]||'')?1:-1);
+
+    document.getElementById('leave-approve-sub').textContent = isPrincipal ? '院長批核' : `主管簽核（${myName||''}）`;
+
+    el.innerHTML = `
+        <div class="section">
+            <div class="sec-title" style="margin-bottom:10px">待簽核（${pendingForMe.length}）</div>
+            ${pendingForMe.length
+                ? pendingForMe.map(r=>renderLeaveApproveCard(r, isPrincipal)).join('')
+                : '<div class="empty-state"><p>目前無待簽核申請</p></div>'}
+        </div>
+        ${others.length ? `<div class="section">
+            <div class="sec-title" style="margin-bottom:10px;color:var(--text-muted)">已處理記錄</div>
+            ${others.map(r=>renderLeaveCard(r)).join('')}
+        </div>` : ''}`;
+}
+
+// ─── Leave multi-select (principal) ─────────────────────────────
+function toggleLeaveSelMode() {
+    leaveSelected.clear();
+    renderLeave();
+}
+function toggleLeaveRow(id, el) {
+    if (el.checked) leaveSelected.add(id); else leaveSelected.delete(id);
+    // Update action buttons without full re-render
+    renderLeave();
+}
+function clearLeaveSelection() {
+    leaveSelected.clear();
+    renderLeave();
+}
+async function deleteSelectedLeave() {
+    if (!leaveSelected.size) return;
+    confirm2(`確定刪除選取的 ${leaveSelected.size} 筆請假記錄？`, async () => {
+        const ids = [...leaveSelected];
+        leaveSelected.clear();
+        try {
+            const batch = db.batch();
+            ids.forEach(id => batch.delete(db.collection(col('leaveRequests')).doc(id)));
+            await batch.commit();
+            toast(`已刪除 ${ids.length} 筆記錄`);
+        } catch(e) { toast('刪除失敗：'+e.message); }
+    });
+}
+
+// ─── Leave type selector ─────────────────────────────────────────
+let _selectedLeaveType = null;
+function selectLeaveType(type) {
+    _selectedLeaveType = type;
+    document.querySelectorAll('#lv-type-grid .leave-type-btn').forEach(btn => {
+        const t = LEAVE_TYPES.find(x=>x.key===btn.dataset.ltype);
+        btn.className = 'leave-type-btn' + (btn.dataset.ltype===type ? ` ${t?.cls||''}` : '');
+    });
+    const wrap = document.getElementById('lv-subtype-wrap');
+    if (wrap) wrap.style.display = type === 'other' ? '' : 'none';
+}
+
+// ─── Leave date list ─────────────────────────────────────────────
+if (!window._leaveDates) window._leaveDates = [];
+function addLeaveDate() {
+    const input = document.getElementById('lv-date-add'); if (!input?.value) return;
+    if (!window._leaveDates) window._leaveDates = [];
+    if (window._leaveDates.includes(input.value)) { toast('該日期已加入'); return; }
+    window._leaveDates.push(input.value);
+    window._leaveDates.sort();
+    refreshLeaveDateList();
+}
+function removeLvDate(d) {
+    window._leaveDates = (window._leaveDates||[]).filter(x=>x!==d);
+    refreshLeaveDateList();
+}
+function refreshLeaveDateList() {
+    const el = document.getElementById('lv-dates-list'); if (!el) return;
+    el.innerHTML = (window._leaveDates||[]).map(d=>`
+        <span style="display:inline-flex;align-items:center;gap:4px;background:var(--accent-light);color:var(--accent);padding:3px 10px;border-radius:4px;font-size:12.5px">
+            ${d}
+            <button onclick="removeLvDate('${d}')" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;line-height:1;padding:0 2px">×</button>
+        </span>`).join('');
+}
+
+// ─── Submit leave request ─────────────────────────────────────────
+async function submitLeaveRequest() {
+    const asst = currentAssistantView; if (!asst) return;
+    if (!_selectedLeaveType) { toast('請選擇假別'); return; }
+    if (!(window._leaveDates||[]).length) { toast('請加入請假日期'); return; }
+    const proxyEl = document.getElementById('lv-proxy');
+    if (!proxyEl?.value) { toast('請選擇代理人'); return; }
+    const approverEl = document.getElementById('lv-approver');
+    if (!approverEl?.value) { toast('請選擇簽核主管'); return; }
+    const subTypeEl = document.getElementById('lv-subtype');
+    const subType = _selectedLeaveType === 'other' ? (subTypeEl?.value || '') : '';
+    const proxyOpt = proxyEl.options[proxyEl.selectedIndex];
+    try {
+        await db.collection(col('leaveRequests')).add({
+            assistantId: asst.id, assistantName: asst.name,
+            leaveType: _selectedLeaveType, leaveSubType: subType,
+            dates: [...window._leaveDates],
+            proxyId: proxyEl.value, proxyName: proxyOpt.dataset.name || proxyOpt.text,
+            approverName: approverEl.value,
+            status: 'pending_supervisor',
+            supervisorApprovedAt: null, principalApprovedAt: null,
+            rejectReason: '', rejectedBy: '',
+            createdAt: new Date().toISOString()
+        });
+        window._leaveDates = [];
+        _selectedLeaveType = null;
+        toast('申請已送出，等待主管簽核');
+        renderLeave();
+    } catch(e) { toast('送出失敗：'+e.message); }
+}
+
+// ─── Approve / reject leave ──────────────────────────────────────
+async function approveLeave(id) {
+    const r = state.leaveRequests.find(x=>x.id===id); if (!r) return;
+    const isPrincipal = viewMode === 'principal';
+    const now = new Date().toISOString();
+    try {
+        if (isPrincipal && r.status === 'pending_principal') {
+            await db.collection(col('leaveRequests')).doc(id).update({ status:'approved', principalApprovedAt: now });
+            toast('已批准');
+        } else if (!isPrincipal && r.status === 'pending_supervisor') {
+            await db.collection(col('leaveRequests')).doc(id).update({ status:'pending_principal', supervisorApprovedAt: now });
+            toast('已轉交院長審核');
+        } else {
+            toast('狀態不符，無法審核');
+        }
+    } catch(e) { toast('操作失敗：'+e.message); }
+}
+
+async function rejectLeave(id) {
+    const reason = prompt('退回原因（可留空）：') ?? null;
+    if (reason === null) return;
+    const rejectedBy = viewMode === 'principal' ? '院長' : (viewMode === 'manager' ? currentOperator : '主管');
+    try {
+        await db.collection(col('leaveRequests')).doc(id).update({
+            status: 'rejected', rejectReason: reason, rejectedBy,
+            rejectedAt: new Date().toISOString()
+        });
+        toast('已退回申請');
+    } catch(e) { toast('操作失敗：'+e.message); }
+}
+
+// ─── Principal: add manual leave record ──────────────────────────
+if (!window._adminLeaveDates) window._adminLeaveDates = [];
+let _adminLeaveType = null;
+function openAddLeaveModal() {
+    _adminLeaveType = null;
+    window._adminLeaveDates = [];
+    // Populate assistant dropdown
+    const asstSel = document.getElementById('al-asst');
+    if (asstSel) {
+        asstSel.innerHTML = '<option value="">— 請選擇 —</option>' +
+            state.assistants.filter(a=>a.active).sort((a,b)=>a.name.localeCompare(b.name,'zh-TW'))
+                .map(a=>`<option value="${a.id}" data-name="${a.name}">${a.name}</option>`).join('');
+    }
+    // Proxy dropdown (will update on assistant selection)
+    const proxySel = document.getElementById('al-proxy');
+    if (proxySel) {
+        proxySel.innerHTML = '<option value="">— 請選擇 —</option>' +
+            state.assistants.filter(a=>a.active).map(a=>`<option value="${a.id}" data-name="${a.name}">${a.name}</option>`).join('');
+    }
+    // Leave type grid
+    const grid = document.getElementById('al-type-grid');
+    if (grid) grid.innerHTML = LEAVE_TYPES.map(t=>`<button class="leave-type-btn" data-ltype="${t.key}" onclick="selectAdminLeaveType('${t.key}')">${t.label}</button>`).join('');
+    // Sub-type
+    const subSel = document.getElementById('al-subtype');
+    if (subSel) subSel.innerHTML = LEAVE_SUB_TYPES.map(s=>`<option value="${s.key}">${s.label}</option>`).join('');
+    // Date
+    const dateEl = document.getElementById('al-date-add');
+    if (dateEl) dateEl.value = today();
+    refreshAdminLeaveDateList();
+    document.getElementById('modal-add-leave')?.classList.remove('hidden');
+}
+function selectAdminLeaveType(type) {
+    _adminLeaveType = type;
+    document.querySelectorAll('#al-type-grid .leave-type-btn').forEach(btn => {
+        const t = LEAVE_TYPES.find(x=>x.key===btn.dataset.ltype);
+        btn.className = 'leave-type-btn' + (btn.dataset.ltype===type ? ` ${t?.cls||''}` : '');
+    });
+    const wrap = document.getElementById('al-subtype-wrap');
+    if (wrap) wrap.style.display = type === 'other' ? '' : 'none';
+}
+function addAdminLeaveDate() {
+    const input = document.getElementById('al-date-add'); if (!input?.value) return;
+    if (!window._adminLeaveDates) window._adminLeaveDates = [];
+    if (window._adminLeaveDates.includes(input.value)) { toast('該日期已加入'); return; }
+    window._adminLeaveDates.push(input.value);
+    window._adminLeaveDates.sort();
+    refreshAdminLeaveDateList();
+}
+function removeAdminLvDate(d) {
+    window._adminLeaveDates = (window._adminLeaveDates||[]).filter(x=>x!==d);
+    refreshAdminLeaveDateList();
+}
+function refreshAdminLeaveDateList() {
+    const el = document.getElementById('al-dates-list'); if (!el) return;
+    el.innerHTML = (window._adminLeaveDates||[]).map(d=>`
+        <span style="display:inline-flex;align-items:center;gap:4px;background:var(--accent-light);color:var(--accent);padding:3px 10px;border-radius:4px;font-size:12.5px">
+            ${d}<button onclick="removeAdminLvDate('${d}')" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:14px;line-height:1;padding:0 2px">×</button>
+        </span>`).join('');
+}
+async function submitManualLeave() {
+    if (!_adminLeaveType) { toast('請選擇假別'); return; }
+    if (!(window._adminLeaveDates||[]).length) { toast('請加入請假日期'); return; }
+    const asstEl = document.getElementById('al-asst');
+    if (!asstEl?.value) { toast('請選擇助理'); return; }
+    const asstOpt = asstEl.options[asstEl.selectedIndex];
+    const asstName = asstOpt.dataset.name || asstOpt.text;
+    const proxyEl = document.getElementById('al-proxy');
+    const proxyOpt = proxyEl?.options[proxyEl.selectedIndex];
+    const subTypeEl = document.getElementById('al-subtype');
+    const subType = _adminLeaveType === 'other' ? (subTypeEl?.value || '') : '';
+    const statusEl = document.getElementById('al-status');
+    const status = statusEl?.value || 'approved';
+    const now = new Date().toISOString();
+    try {
+        await db.collection(col('leaveRequests')).add({
+            assistantId: asstEl.value, assistantName: asstName,
+            leaveType: _adminLeaveType, leaveSubType: subType,
+            dates: [...window._adminLeaveDates],
+            proxyId: proxyEl?.value || '', proxyName: proxyOpt?.dataset.name || proxyOpt?.text || '—',
+            approverName: '院長',
+            status,
+            supervisorApprovedAt: status !== 'pending_supervisor' ? now : null,
+            principalApprovedAt: status === 'approved' ? now : null,
+            rejectReason: '', rejectedBy: '',
+            createdAt: now
+        });
+        hideModal('modal-add-leave');
+        toast('已新增請假紀錄');
+    } catch(e) { toast('新增失敗：' + e.message); }
+}
+
+// ─── Principal: adjust annual leave entitlement ──────────────────
+async function adjustAnnualLeave(asstId, asstName, year, currentEntitled) {
+    const input = prompt(`${asstName} ${year}年 特休天數（目前：${currentEntitled}天）\n請輸入新的應得天數：`, currentEntitled);
+    if (input === null) return;
+    const days = parseInt(input);
+    if (isNaN(days) || days < 0) { toast('請輸入有效天數'); return; }
+    const ls = settings.leaveSettings || {};
+    const adjs = { ...(ls.leaveAdjustments || {}) };
+    adjs[asstId] = { ...(adjs[asstId]||{}), [String(year)]: days };
+    try {
+        await db.collection(col('settings')).doc('main').update({ 'leaveSettings.leaveAdjustments': adjs });
+        settings.leaveSettings = { ...ls, leaveAdjustments: adjs };
+        toast(`已調整為 ${days} 天`);
+        renderLeave();
+    } catch(e) { toast('儲存失敗：'+e.message); }
+}
+
+async function saveLeaveIncrement() {
+    const val = parseInt(document.getElementById('leave-increment-input')?.value);
+    if (isNaN(val) || val < 0) { toast('請輸入有效數字'); return; }
+    const ls = settings.leaveSettings || {};
+    try {
+        await db.collection(col('settings')).doc('main').update({ 'leaveSettings.annualLeaveIncrement': val });
+        settings.leaveSettings = { ...ls, annualLeaveIncrement: val };
+        toast('已儲存');
+        renderLeave();
     } catch(e) { toast('儲存失敗：'+e.message); }
 }
 
